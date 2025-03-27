@@ -1,16 +1,18 @@
 #include "associative_array.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 
 hashmap HashmapCreate(const uint32 size)
 {
     hashmap newHash;
-    newHash.allocations = 0; // How many spaces in the "keys" and "values" arrays have been used before.
-    newHash.maxSize = size; // Maximum number of unique keys and values.
+    newHash.allocations = 0; // How many spaces in the "keys" and "values"
+                             // arrays have been used before.
+    newHash.maxSize = size;  // Maximum number of unique keys and values.
     newHash.keys = (const char**)malloc(size * sizeof(const char*)); // INTERNAL
-    newHash.values = (const char**)malloc(size * sizeof(const char*)); // INTERNAL
+    newHash.values =
+        (const char**)malloc(size * sizeof(const char*)); // INTERNAL
     return newHash;
 }
 
@@ -23,8 +25,7 @@ void HashmapDestroy(hashmap* map)
 int HashmapAdd(hashmap* map, const char* key, const char* value)
 {
     // Don't add values for duplicate keys
-    if (HashmapHasKey(map, key))
-        return 0;
+    if (HashmapHasKey(map, key)) return 0;
 
     if (map->allocations < map->maxSize)
     {
@@ -64,8 +65,7 @@ int HashmapHasKey(const hashmap* map, const char* key)
 {
     for (int i = 0; i < map->allocations; i++)
     {
-        if (strcmp(map->keys[i], key) == 0)
-            return 1;
+        if (strcmp(map->keys[i], key) == 0) return 1;
     }
 
     return 0;
@@ -78,8 +78,7 @@ void HashmapPrint(const hashmap* map)
     {
         const char* key = map->keys[i];
         // Don't print empty keys
-        if (strcmp(key, "") == 0)
-            continue;
+        if (strcmp(key, "") == 0) continue;
         printf("Key: %s | Value: %s\n", key, map->values[i]);
     }
     printf("Ending of map with %i allocations\n\n", map->allocations);
@@ -93,9 +92,9 @@ int HashmapRemove(hashmap* map, const char* key)
         {
             map->keys[i] = "";
             map->values[i] = "";
-            return  1;
+            return 1;
         }
     }
 
-    return  0;
+    return 0;
 }
